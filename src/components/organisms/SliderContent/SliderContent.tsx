@@ -7,6 +7,7 @@ import { Slider } from '../../molecules/Slider';
 type Props = {
 	minValue: number;
 	maxValue: number;
+	limitValueSet: Object;
 	handleMinNumberChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	handleMaxNumberChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
@@ -14,6 +15,7 @@ type Props = {
 export const SliderContent: React.FC<Props> = ({
 	minValue,
 	maxValue,
+	limitValueSet,
 	handleMinNumberChange,
 	handleMaxNumberChange,
 	 }) => (
@@ -35,6 +37,7 @@ export const SliderContent: React.FC<Props> = ({
 			<Slider
 				minValue={minValue}
 				maxValue={maxValue}
+				limitValueSet={limitValueSet}
 			/>
 		</fieldset>
 	</form>

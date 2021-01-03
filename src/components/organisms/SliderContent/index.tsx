@@ -2,11 +2,17 @@
 import React, { useReducer } from 'react';
 import { SliderContent as Presentational } from './SliderContent';
 
-export const SliderContent: React.FC = React.memo(() => {
-	type StateType = {
-		min: number;
-		max: number;
-	}
+type Props = {
+	initialValueSet: StateType;
+	limitValueSet: Object;
+};
+export type StateType = {
+	min: number;
+	max: number;
+}
+
+export const SliderContent: React.FC<Props> = React.memo((props) => {
+	const { initialValueSet, limitValueSet } = props;
 	// better to use union type rather than enum
 	// enum is inferior at compiling a
 	// https://www.benmvp.com/blog/type-checking-react-usereducer-typescript/
@@ -15,10 +21,7 @@ export const SliderContent: React.FC = React.memo(() => {
 		| { type: 'changeMin'; value: number;}
 		| { type: 'changeMax'; value: number;};
 
-	const State : StateType = {
-		min: 0,
-		max: 100,
-	}
+	const State : StateType = {...initialValueSet}
 	const reducerFunc = (state: StateType, action: Action): StateType => {
 		switch (action.type) {
 			case 'changeMin':
@@ -41,10 +44,11 @@ export const SliderContent: React.FC = React.memo(() => {
 
 	return (
 		<Presentational
-			minValue = { state.min }
-			maxValue = { state.max }
-			handleMinNumberChange = { handleMinNumberChange }
-			handleMaxNumberChange = { handleMaxNumberChange }
+			minValue={state.min}
+			maxValue={state.max}
+			limitValueSet={limitValueSet}
+			handleMinNumberChange={handleMinNumberChange}
+			handleMaxNumberChange={handleMaxNumberChange}
 		/>
 	);
 });
