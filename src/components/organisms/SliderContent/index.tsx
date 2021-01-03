@@ -1,9 +1,17 @@
 // this is container component
 import React, { useReducer } from 'react';
-import { Slider as Presentational } from './Slider';
+import { SliderContent as Presentational } from './SliderContent';
+import type { InlineStyles } from '../../molecules/Slider';
 
-export const Slider: React.FC = React.memo(() => {
-	type StateType = { [key: string]: number }
+export const SliderContent: React.FC = React.memo(() => {
+	type StateType = {
+		min: number;
+		max: number;
+		railWrapperStyles: InlineStyles;
+		railTrackStyles: InlineStyles;
+		minHandleStyles: InlineStyles;
+		maxHandleStyles: InlineStyles;
+	}
 	// better to use union type rather than enum
 	// enum is inferior at compiling a
 	// https://www.benmvp.com/blog/type-checking-react-usereducer-typescript/
@@ -14,7 +22,11 @@ export const Slider: React.FC = React.memo(() => {
 
 	const State : StateType = {
 		min: 0,
-		max: 100
+		max: 100,
+		railWrapperStyles: { width: '300px' },
+		railTrackStyles: { left: '12px',right: 'auto',width: '120px' },
+		minHandleStyles: { left: '12px',right: 'auto' },
+		maxHandleStyles: { left: '132px',right: 'auto' },
 	}
 	const reducerFunc = (state: StateType, action: Action): StateType => {
 		switch (action.type) {
@@ -40,6 +52,10 @@ export const Slider: React.FC = React.memo(() => {
 		<Presentational
 			minValue = { count.min }
 			maxValue = { count.max }
+			railWrapperStyles = { count.railWrapperStyles }
+			railTrackStyles = { count.railTrackStyles }
+			minHandleStyles = { count.minHandleStyles }
+			maxHandleStyles = { count.maxHandleStyles }
 			handleMinNumberChange = { handleMinNumberChange }
 			handleMaxNumberChange = { handleMaxNumberChange }
 		/>

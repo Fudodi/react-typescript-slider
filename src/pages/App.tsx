@@ -1,11 +1,11 @@
 import React from 'react';
-import { Slider } from '../components/organisms/Slider/index'
+import { SliderContent } from '../components/organisms/SliderContent/index'
 import styles from './App.module.scss';
 
 function App() {
 	return (
 		<div className={styles.root}>
-			<Slider />
+			<SliderContent />
 		</div>
 	);
 }
