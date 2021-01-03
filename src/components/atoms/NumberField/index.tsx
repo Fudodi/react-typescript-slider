@@ -8,8 +8,8 @@ type Props = {
 };
 
 export const NumberField: React.FC<Props> = (props) => {
-	const { value, name } = props;
+	const { value, name, onChange } = props;
 	return (
-		<input type="number" value={value} name={name} className={styles.root} />
+		<input type="number" value={value} name={name} className={styles.root} onChange={onChange}/>
 	);
 };
