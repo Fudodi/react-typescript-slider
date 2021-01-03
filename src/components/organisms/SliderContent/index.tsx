@@ -23,10 +23,10 @@ export const SliderContent: React.FC = React.memo(() => {
 	const State : StateType = {
 		min: 0,
 		max: 100,
-		railWrapperStyles: { width: '300px' },
-		railTrackStyles: { left: '12px',right: 'auto',width: '120px' },
-		minHandleStyles: { left: '12px',right: 'auto' },
-		maxHandleStyles: { left: '132px',right: 'auto' },
+		railWrapperStyles: { width: 300 },
+		railTrackStyles: { width: 120, left: 12, right: 'auto' },
+		minHandleStyles: { left: 12, right: 'auto' },
+		maxHandleStyles: { left: 132,right: 'auto' },
 	}
 	const reducerFunc = (state: StateType, action: Action): StateType => {
 		switch (action.type) {

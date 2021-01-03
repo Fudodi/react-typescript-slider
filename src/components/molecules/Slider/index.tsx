@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './index.module.scss';
 
-export type InlineStyles = {[key: string]: string}
+export type InlineStyles = {[key: string]: string | number}
 
 type Props = {
 	railWrapperStyles: InlineStyles;
