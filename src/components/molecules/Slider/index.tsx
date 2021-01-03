@@ -1,12 +1,15 @@
 import React, {useReducer} from 'react';
+import { Slider as Presentational } from './Slider';
 import styles from './index.module.scss';
 
 type Props = {
 	minValue: number;
 	maxValue: number;
+	limitValueSet: Object;
 };
+
 type InlineStyles = {[key: string]: string | number}
-type StateType = {
+export type StateType = {
 	railWrapperStyles: InlineStyles;
 	railTrackStyles: InlineStyles;
 	minHandleStyles: InlineStyles;
@@ -14,6 +17,8 @@ type StateType = {
 }
 
 export const Slider: React.FC<Props> = (props) => {
+	const { maxValue, minValue, limitValueSet } = props;
+
 	const State : StateType = {
 		// Define Slider parts' width & height here because they're related to Slider logic
 		railWrapperStyles: { width: 300 },
@@ -35,16 +40,15 @@ export const Slider: React.FC<Props> = (props) => {
 				return state
 		}
 	}
-	
+
 	const [state, dispatch] = useReducer(reducerFunc, State);
 
-	const { maxValue, minValue } = props;
 	return (
-		<div className={styles.wrapper} style={state.railWrapperStyles}>
-			<div className={styles.placeholder}></div>
-			<div className={styles.railTrack} style={state.railTrackStyles}></div>
-			<div className={styles.sliderHandle} data-value={minValue} data-js-position="" style={state.minHandleStyles}></div>
-			<div className={styles.sliderHandle} data-value={maxValue} data-js-position="" style={state.maxHandleStyles}></div>
-		</div>
+		<Presentational
+			railWrapperStyles={state.railWrapperStyles}
+			railTrackStyles={state.railTrackStyles}
+			minHandleStyles={state.minHandleStyles}
+			maxHandleStyles={state.maxHandleStyles}
+		/>
 	);
 };
