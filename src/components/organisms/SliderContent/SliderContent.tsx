@@ -3,15 +3,10 @@ import * as React from 'react';
 import styles from './SliderContent.module.scss';
 import { NumberInput } from '../../molecules/NumberInput';
 import { Slider } from '../../molecules/Slider';
-import type { InlineStyles } from '../../molecules/Slider';
 
 type Props = {
 	minValue: number;
 	maxValue: number;
-	railWrapperStyles: InlineStyles;
-	railTrackStyles: InlineStyles;
-	minHandleStyles: InlineStyles;
-	maxHandleStyles: InlineStyles;
 	handleMinNumberChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	handleMaxNumberChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
@@ -19,10 +14,6 @@ type Props = {
 export const SliderContent: React.FC<Props> = ({
 	minValue,
 	maxValue,
-	railWrapperStyles,
-	railTrackStyles,
-	minHandleStyles,
-	maxHandleStyles,
 	handleMinNumberChange,
 	handleMaxNumberChange,
 	 }) => (
@@ -42,10 +33,8 @@ export const SliderContent: React.FC<Props> = ({
 				onChange={handleMaxNumberChange}
 			/>
 			<Slider
-				railWrapperStyles={railWrapperStyles}
-				railTrackStyles={railTrackStyles}
-				minHandleStyles={minHandleStyles}
-				maxHandleStyles={maxHandleStyles}
+				minValue={minValue}
+				maxValue={maxValue}
 			/>
 		</fieldset>
 	</form>

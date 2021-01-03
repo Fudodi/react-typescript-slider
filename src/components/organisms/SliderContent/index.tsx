@@ -1,16 +1,11 @@
 // this is container component
 import React, { useReducer } from 'react';
 import { SliderContent as Presentational } from './SliderContent';
-import type { InlineStyles } from '../../molecules/Slider';
 
 export const SliderContent: React.FC = React.memo(() => {
 	type StateType = {
 		min: number;
 		max: number;
-		railWrapperStyles: InlineStyles;
-		railTrackStyles: InlineStyles;
-		minHandleStyles: InlineStyles;
-		maxHandleStyles: InlineStyles;
 	}
 	// better to use union type rather than enum
 	// enum is inferior at compiling a
@@ -23,11 +18,6 @@ export const SliderContent: React.FC = React.memo(() => {
 	const State : StateType = {
 		min: 0,
 		max: 100,
-		// Define Slider parts' width & height here because they're related to Slider logic
-		railWrapperStyles: { width: 300 },
-		railTrackStyles: { width: 120, left: 12, right: 'auto' },
-		minHandleStyles: { width: 30, height: 30, left: 12, right: 'auto' },
-		maxHandleStyles: { width: 30, height: 30, left: 132, right: 'auto' },
 	}
 	const reducerFunc = (state: StateType, action: Action): StateType => {
 		switch (action.type) {
@@ -40,7 +30,7 @@ export const SliderContent: React.FC = React.memo(() => {
 		}
 	}
 	
-	const [count, dispatch] = useReducer(reducerFunc, State);
+	const [state, dispatch] = useReducer(reducerFunc, State);
 
 	const handleMinNumberChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
 			dispatch({type: 'changeMin', value: Number(e.target.value)});
@@ -51,12 +41,8 @@ export const SliderContent: React.FC = React.memo(() => {
 
 	return (
 		<Presentational
-			minValue = { count.min }
-			maxValue = { count.max }
-			railWrapperStyles = { count.railWrapperStyles }
-			railTrackStyles = { count.railTrackStyles }
-			minHandleStyles = { count.minHandleStyles }
-			maxHandleStyles = { count.maxHandleStyles }
+			minValue = { state.min }
+			maxValue = { state.max }
 			handleMinNumberChange = { handleMinNumberChange }
 			handleMaxNumberChange = { handleMaxNumberChange }
 		/>
