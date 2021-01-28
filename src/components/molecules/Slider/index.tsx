@@ -6,6 +6,7 @@ type Props = {
 	minValue: number;
 	maxValue: number;
 	limitValueSet: Object;
+	stepValue: number;
 };
 
 type InlineStyles = {[key: string]: string | number}
@@ -17,7 +18,7 @@ export type StateType = {
 }
 
 export const Slider: React.FC<Props> = (props) => {
-	const { maxValue, minValue, limitValueSet } = props;
+	const { maxValue, minValue, limitValueSet, stepValue } = props;
 
 	const State : StateType = {
 		// Define Slider parts' width & height here because they're related to Slider logic

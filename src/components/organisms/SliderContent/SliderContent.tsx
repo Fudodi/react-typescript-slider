@@ -10,12 +10,14 @@ type Props = {
 	limitValueSet: Object;
 	handleMinNumberChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	handleMaxNumberChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	stepValue: number;
 };
 
 export const SliderContent: React.FC<Props> = ({
 	minValue,
 	maxValue,
 	limitValueSet,
+	stepValue,
 	handleMinNumberChange,
 	handleMaxNumberChange,
 	 }) => (
@@ -38,6 +40,7 @@ export const SliderContent: React.FC<Props> = ({
 				minValue={minValue}
 				maxValue={maxValue}
 				limitValueSet={limitValueSet}
+				stepValue={stepValue}
 			/>
 		</fieldset>
 	</form>

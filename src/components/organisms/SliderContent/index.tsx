@@ -5,6 +5,7 @@ import { SliderContent as Presentational } from './SliderContent';
 type Props = {
 	initialValueSet: StateType;
 	limitValueSet: Object;
+	stepValue: number;
 };
 export type StateType = {
 	min: number;
@@ -13,6 +14,7 @@ export type StateType = {
 
 export const SliderContent: React.FC<Props> = React.memo((props) => {
 	const { initialValueSet, limitValueSet } = props;
+	const { initialValueSet, limitValueSet, stepValue } = props;
 	// better to use union type rather than enum
 	// enum is inferior at compiling a
 	// https://www.benmvp.com/blog/type-checking-react-usereducer-typescript/
@@ -49,6 +51,7 @@ export const SliderContent: React.FC<Props> = React.memo((props) => {
 			limitValueSet={limitValueSet}
 			handleMinNumberChange={handleMinNumberChange}
 			handleMaxNumberChange={handleMaxNumberChange}
+			stepValue={stepValue}
 		/>
 	);
 });

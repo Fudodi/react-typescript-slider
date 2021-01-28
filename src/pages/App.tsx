@@ -13,11 +13,13 @@ function App() {
 		limitMin: 0,
 		limitMax: 100,
 	}
+	const stepValue : number = 10;
 	return (
 		<div className={styles.root}>
 			<SliderContent
 				initialValueSet={initialValueSet}
 				limitValueSet={limitValueSet}
+				stepValue={stepValue}
 			/>
 		</div>
 	);
