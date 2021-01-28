@@ -3,17 +3,16 @@ import React, { useReducer } from 'react';
 import { SliderContent as Presentational } from './SliderContent';
 
 type Props = {
-	initialValueSet: StateType;
-	limitValueSet: Object;
+	initialValueSet: minAndMaxType;
+	limitValueSet: minAndMaxType;
 	stepValue: number;
 };
-export type StateType = {
+export type minAndMaxType = {
 	min: number;
 	max: number;
 }
 
 export const SliderContent: React.FC<Props> = React.memo((props) => {
-	const { initialValueSet, limitValueSet } = props;
 	const { initialValueSet, limitValueSet, stepValue } = props;
 	// better to use union type rather than enum
 	// enum is inferior at compiling a
@@ -23,8 +22,8 @@ export const SliderContent: React.FC<Props> = React.memo((props) => {
 		| { type: 'changeMin'; value: number;}
 		| { type: 'changeMax'; value: number;};
 
-	const State : StateType = {...initialValueSet}
-	const reducerFunc = (state: StateType, action: Action): StateType => {
+	const State : minAndMaxType = {...initialValueSet}
+	const reducerFunc = (state: minAndMaxType, action: Action): minAndMaxType => {
 		switch (action.type) {
 			case 'changeMin':
 				return {...state, min: action.value}
@@ -43,15 +42,20 @@ export const SliderContent: React.FC<Props> = React.memo((props) => {
 	const handleMaxNumberChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
 			dispatch({type: 'changeMax', value: Number(e.target.value)});
 		};
+	const minNumberChange = (value: number): void => {
+		dispatch({type: 'changeMin', value: value});
+	};
+	const maxNumberChange = (value: number): void => {
+		dispatch({type: 'changeMin', value: value});
+	};
 
 	return (
 		<Presentational
-			minValue={state.min}
-			maxValue={state.max}
+			currentValueSet={state}
 			limitValueSet={limitValueSet}
-			handleMinNumberChange={handleMinNumberChange}
-			handleMaxNumberChange={handleMaxNumberChange}
 			stepValue={stepValue}
+			handleMinNumberChange={minNumberChange}
+			handleMaxNumberChange={maxNumberChange}
 		/>
 	);
 });

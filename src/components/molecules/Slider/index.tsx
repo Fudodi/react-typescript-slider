@@ -1,12 +1,14 @@
 import React, {useReducer} from 'react';
 import { Slider as Presentational } from './Slider';
 import styles from './index.module.scss';
+import type { minAndMaxType } from '../../organisms/SliderContent/index';
 
 type Props = {
-	minValue: number;
-	maxValue: number;
-	limitValueSet: Object;
+	currentValueSet: minAndMaxType;
+	limitValueSet: minAndMaxType;
 	stepValue: number;
+	handleMinChange: (value: number) => void;
+	handleMaxChange: (value: number) => void;
 };
 
 type InlineStyles = {[key: string]: string | number}

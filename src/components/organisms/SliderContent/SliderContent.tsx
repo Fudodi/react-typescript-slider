@@ -1,21 +1,19 @@
 // this is presentational component
 import * as React from 'react';
 import styles from './SliderContent.module.scss';
-import { NumberInput } from '../../molecules/NumberInput';
 import { Slider } from '../../molecules/Slider';
+import type { minAndMaxType } from './index';
 
 type Props = {
-	minValue: number;
-	maxValue: number;
-	limitValueSet: Object;
-	handleMinNumberChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-	handleMaxNumberChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	currentValueSet: minAndMaxType;
+	limitValueSet: minAndMaxType;
 	stepValue: number;
+	handleMinNumberChange: (value: number) => void;
+	handleMaxNumberChange: (value: number) => void;
 };
 
 export const SliderContent: React.FC<Props> = ({
-	minValue,
-	maxValue,
+	currentValueSet,
 	limitValueSet,
 	stepValue,
 	handleMinNumberChange,
@@ -24,23 +22,20 @@ export const SliderContent: React.FC<Props> = ({
 	<form className={styles.root} action="">
 		<fieldset>
 			<legend>スライダー</legend>
-			<NumberInput
-				label="最小値"
+			<input readOnly
 				name="minValue"
-				value={minValue}
-				onChange={handleMinNumberChange}
+				value={currentValueSet.min}
 			/>
-			<NumberInput
-				label="最大値"
+			<input readOnly
 				name="maxValue"
-				value={maxValue}
-				onChange={handleMaxNumberChange}
+				value={currentValueSet.max}
 			/>
 			<Slider
-				minValue={minValue}
-				maxValue={maxValue}
+				currentValueSet={currentValueSet}
 				limitValueSet={limitValueSet}
 				stepValue={stepValue}
+				handleMinChange={handleMinNumberChange}
+				handleMaxChange={handleMaxNumberChange}
 			/>
 		</fieldset>
 	</form>

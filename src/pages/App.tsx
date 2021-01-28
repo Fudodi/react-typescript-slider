@@ -1,17 +1,16 @@
 import React from 'react';
 import { SliderContent } from '../components/organisms/SliderContent/index';
 import styles from './App.module.scss';
-import type { StateType } from '../components/organisms/SliderContent/index';
+import type { minAndMaxType } from '../components/organisms/SliderContent/index';
 
 function App() {
-	type ValueSets = {[key: string]: number}
-	const initialValueSet: StateType = {
+	const initialValueSet: minAndMaxType = {
 		min: 20,
 		max: 80,
 	}
-	const limitValueSet: ValueSets = {
-		limitMin: 0,
-		limitMax: 100,
+	const limitValueSet: minAndMaxType = {
+		min: 0,
+		max: 100,
 	}
 	const stepValue : number = 10;
 	return (
