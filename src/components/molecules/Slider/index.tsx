@@ -1,6 +1,5 @@
-import React, {useReducer} from 'react';
+import React, {useReducer, useEffect} from 'react';
 import { Slider as Presentational } from './Slider';
-import styles from './index.module.scss';
 import type { minAndMaxType } from '../../organisms/SliderContent/index';
 
 type Props = {
@@ -11,47 +10,44 @@ type Props = {
 	handleMaxChange: (value: number) => void;
 };
 
-type InlineStyles = {[key: string]: string | number}
-export type StateType = {
-	railWrapperStyles: InlineStyles;
-	railTrackStyles: InlineStyles;
-	minHandleStyles: InlineStyles;
-	maxHandleStyles: InlineStyles;
-}
+export type InlineStyles = {[key: string]: string | number}
 
 export const Slider: React.FC<Props> = (props) => {
-	const { maxValue, minValue, limitValueSet, stepValue } = props;
+	const { currentValueSet, limitValueSet, stepValue, handleMinChange, handleMaxChange } = props;
 
-	const State : StateType = {
-		// Define Slider parts' width & height here because they're related to Slider logic
-		railWrapperStyles: { width: 300 },
-		railTrackStyles: { width: 120, left: 12, right: 'auto' },
-		minHandleStyles: { width: 30, height: 30, left: 12, right: 'auto' },
-		maxHandleStyles: { width: 30, height: 30, left: 132, right: 'auto' },
-	}
-	type Action =
-	// todo: create actions by mouse events
-		| { type: 'changeMin'; value: number;}
-		| { type: 'changeMax'; value: number;};
-	const reducerFunc = (state: StateType, action: Action): StateType => {
-		switch (action.type) {
-			case 'changeMin':
-				return {...state}
-			case 'changeMax':
-				return {...state}
-			default:
-				return state
-		}
-	}
+	const railWrapperStyles : {[key: string]: number} = { width: 300 };
 
-	const [state, dispatch] = useReducer(reducerFunc, State);
+	const minPercentage = currentValueSet.min / limitValueSet.max;
+	const maxPercentage = currentValueSet.max / limitValueSet.max;
+
+	const minPixel = railWrapperStyles.width * minPercentage;
+	const maxPixel = railWrapperStyles.width * maxPercentage;
+	const rangePixel = maxPixel - minPixel;
+
+	const railTrackStyles : InlineStyles = { width: rangePixel, left: minPixel, right: 'auto' };
+	const minHandleStyles : InlineStyles = { width: 30, height: 30, left: minPixel, right: 'auto' };
+	const maxHandleStyles : InlineStyles = { width: 30, height: 30, left: maxPixel, right: 'auto' };
+
+	// const testfunc = (num : number) => {
+	// 	handleMinChange(num);
+	// }
+
+	// By using uselayouteffect, create Slider styles from maxValue/minValue/limitValueSet
+	useEffect(()=>{ // https://reffect.co.jp/react/react-useeffect-understanding
+		console.log('useEffectが実行されました')
+		console.log(currentValueSet)
+		// minHandle
+		console.log(minPercentage)
+		// maxHandle
+		console.log(maxPercentage)
+	});
 
 	return (
 		<Presentational
-			railWrapperStyles={state.railWrapperStyles}
-			railTrackStyles={state.railTrackStyles}
-			minHandleStyles={state.minHandleStyles}
-			maxHandleStyles={state.maxHandleStyles}
+			railWrapperStyles={railWrapperStyles}
+			railTrackStyles={railTrackStyles}
+			minHandleStyles={minHandleStyles}
+			maxHandleStyles={maxHandleStyles}
 		/>
 	);
 };
