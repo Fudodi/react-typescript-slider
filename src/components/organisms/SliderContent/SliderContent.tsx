@@ -8,17 +8,17 @@ type Props = {
 	currentValueSet: minAndMaxType;
 	limitValueSet: minAndMaxType;
 	stepValue: number;
-	handleMinNumberChange: (value: number) => void;
-	handleMaxNumberChange: (value: number) => void;
+	minNumberChange: (value: number) => void;
+	maxNumberChange: (value: number) => void;
 };
 
 export const SliderContent: React.FC<Props> = ({
 	currentValueSet,
 	limitValueSet,
 	stepValue,
-	handleMinNumberChange,
-	handleMaxNumberChange,
-	 }) => (
+	minNumberChange,
+	maxNumberChange,
+	}) => (
 	<form className={styles.root} action="">
 		<fieldset>
 			<legend>スライダー</legend>
@@ -34,8 +34,8 @@ export const SliderContent: React.FC<Props> = ({
 				currentValueSet={currentValueSet}
 				limitValueSet={limitValueSet}
 				stepValue={stepValue}
-				handleMinChange={handleMinNumberChange}
-				handleMaxChange={handleMaxNumberChange}
+				minNumberChange={minNumberChange}
+				maxNumberChange={maxNumberChange}
 			/>
 		</fieldset>
 	</form>

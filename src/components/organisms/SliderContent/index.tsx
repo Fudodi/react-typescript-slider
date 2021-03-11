@@ -33,15 +33,9 @@ export const SliderContent: React.FC<Props> = React.memo((props) => {
 				return state
 		}
 	}
-	
+
 	const [state, dispatch] = useReducer(reducerFunc, State);
 
-	const handleMinNumberChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-			dispatch({type: 'changeMin', value: Number(e.target.value)});
-		};
-	const handleMaxNumberChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-			dispatch({type: 'changeMax', value: Number(e.target.value)});
-		};
 	const minNumberChange = (value: number): void => {
 		dispatch({type: 'changeMin', value: value});
 	};
@@ -54,8 +48,8 @@ export const SliderContent: React.FC<Props> = React.memo((props) => {
 			currentValueSet={state}
 			limitValueSet={limitValueSet}
 			stepValue={stepValue}
-			handleMinNumberChange={minNumberChange}
-			handleMaxNumberChange={maxNumberChange}
+			minNumberChange={minNumberChange}
+			maxNumberChange={maxNumberChange}
 		/>
 	);
 });
