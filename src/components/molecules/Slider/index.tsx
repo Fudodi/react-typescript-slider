@@ -10,34 +10,36 @@ type Props = {
 	maxNumberChange: (arg: number) => void;
 };
 
-export type InlineStyles = {[key: string]: string | number} // *to-do
+export type railStyles = {
+	width: number;
+	left: number;
+}
 export type OnChange = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 
 export const Slider: React.FC<Props> = (props) => {
 	console.log('Rencer Slider Model');
 	const { currentValueSet, limitValueSet, stepValue, minNumberChange, maxNumberChange } = props;
 
-	const railWrapperStyles : {[key: string]: number} = { width: 300 };
+	const railWrapperWidth : number = 300;
 
 	const minPercentage = currentValueSet.min / limitValueSet.max;
 	const maxPercentage = currentValueSet.max / limitValueSet.max;
 
-	const minPixel = railWrapperStyles.width * minPercentage;
-	const maxPixel = railWrapperStyles.width * maxPercentage;
+	const minPixel = railWrapperWidth * minPercentage;
+	const maxPixel = railWrapperWidth * maxPercentage;
 	const rangePixel = maxPixel - minPixel;
 
 	// useMemo is to save result of calculation
-	const thresholdPixel = useMemo(()=> Math.round(railWrapperStyles.width / ((limitValueSet.max - limitValueSet.min) / stepValue)),[props]);
+	const thresholdPixel = useMemo(()=> Math.round(railWrapperWidth / ((limitValueSet.max - limitValueSet.min) / stepValue)),[props]);
 	// useEffect(()=>{
 	// execute once props is updated, this var is memorized
 	// 	console.log(thresholdPixel);
 	// }, [props]);
 
 	// states
-	const [railTrackStyles, setRailTrackStyles] = useState<InlineStyles>({ width: rangePixel, left: minPixel, right: 'auto' });
-	const [minHandleStyles, setMinHandleStyles] = useState<InlineStyles>({ left: minPixel, right: 'auto' });
-	const [maxHandleStyles, setMaxHandleStyles] = useState<InlineStyles>({ left: maxPixel, right: 'auto' });
-	const [minValue, setMinValue] = useState<number>(currentValueSet.min);
+	const [railTrackStyles, setRailTrackStyles] = useState<railStyles>({ width: rangePixel, left: minPixel });
+	const [minHandlePosition, setMinHandlePosition] = useState<number>(minPixel);
+	const [maxHandlePosition, setMaxHandlePosition] = useState<number>(maxPixel);
 	
 	// https://blanktar.jp/blog/2020/06/react-why-state-not-updated
 	// const [clickedPoint, setClickedPoint] = useState<number>(0);
@@ -48,10 +50,12 @@ export const Slider: React.FC<Props> = (props) => {
 	// 	console.log(clickedPoint);
 	// }, [clickedPoint]);
 
-	const onMinChange : OnChange = (e) => {
+	const onMinChange : OnChange = (e) => { // *to-do check re-rendering caused by any clicks after running this 
 		let clickedPoint = e.pageX;
-		let currentHandlePosition = Number(minHandleStyles.left); // *to-do
+		let currentHandlePosition = minHandlePosition;
+		let currentMinValue = currentValueSet.min;
 		const minMouseMoveFunc = (e: MouseEvent):void => {
+			console.log('moving')
 			const mouseEvent = e;
 			const currentMove : number = mouseEvent.pageX - clickedPoint;
 			console.log(currentMove)
@@ -60,20 +64,20 @@ export const Slider: React.FC<Props> = (props) => {
 				const nextLeftPixel = currentHandlePosition + thresholdPixel;
 
 				// update handle style
-				setMinHandleStyles({ left: nextLeftPixel, right: 'auto' });
+				setMinHandlePosition(nextLeftPixel);
 				// update clickedpoint
 				clickedPoint = mouseEvent.pageX;
 				// update currentHandlePosition
 				currentHandlePosition = nextLeftPixel;
 				// update minValue
-				setMinValue(minValue + stepValue);
+				currentMinValue += stepValue;
 			}
 		}
 
 		const mouseUpFunc = ():void => {
 			// here store update
 			document.removeEventListener('mousemove', minMouseMoveFunc);
-			console.log('mouseup');
+			minNumberChange(currentMinValue)
 		}
 
 		document.addEventListener('mousemove', minMouseMoveFunc);
@@ -85,13 +89,13 @@ export const Slider: React.FC<Props> = (props) => {
 
 	return (
 		<Presentational
-			railWrapperStyles={railWrapperStyles}
+			railWrapperWidth={railWrapperWidth}
 			railTrackStyles={railTrackStyles}
-			minHandleStyles={minHandleStyles}
-			maxHandleStyles={maxHandleStyles}
+			minHandlePosition={minHandlePosition}
+			maxHandlePosition={maxHandlePosition}
 			onMinChange = {onMinChange}
 			onMaxChange={onMaxChange}
-			testWatch={minValue}
+			testWatch={currentValueSet.min}
 		/>
 	);
 };

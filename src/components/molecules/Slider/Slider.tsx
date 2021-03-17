@@ -1,22 +1,22 @@
 import React from 'react';
-import type { InlineStyles, OnChange} from './index';
+import type { railStyles, OnChange} from './index';
 import styles from './index.module.scss';
 
 type Props = {
-	railWrapperStyles: InlineStyles;
-	railTrackStyles: InlineStyles;
-	minHandleStyles: InlineStyles;
-	maxHandleStyles: InlineStyles;
+	railWrapperWidth: number;
+	railTrackStyles: railStyles;
+	minHandlePosition: number;
+	maxHandlePosition: number;
 	onMinChange: OnChange;
 	onMaxChange: OnChange;
 	testWatch: number;
 };
 
 export const Slider: React.FC<Props> = React.memo( ({
-	railWrapperStyles,
+	railWrapperWidth,
 	railTrackStyles,
-	minHandleStyles,
-	maxHandleStyles,
+	minHandlePosition,
+	maxHandlePosition,
 	onMinChange,
 	onMaxChange,
 	testWatch
@@ -26,11 +26,11 @@ export const Slider: React.FC<Props> = React.memo( ({
 	return	(
 		<div>
 			<div>{testWatch}</div>
-			<div className={styles.wrapper} style={railWrapperStyles}>
+			<div className={styles.wrapper} style={{width: railWrapperWidth}}>
 				<div className={styles.placeholder}></div>
 				<div className={styles.railTrack} style={railTrackStyles}></div>
-				<div className={styles.sliderHandle} style={minHandleStyles} onMouseDown={onMinChange} draggable="false"></div>
-				<div className={styles.sliderHandle} style={maxHandleStyles} onMouseDown={onMaxChange} draggable="false"></div>
+				<div className={styles.sliderHandle} style={{left: minHandlePosition, right: 'auto'}} onMouseDown={onMinChange} draggable="false"></div>
+				<div className={styles.sliderHandle} style={{left: maxHandlePosition, right: 'auto'}} onMouseDown={onMaxChange} draggable="false"></div>
 			</div>
 		</div>
 )});
