@@ -9,7 +9,7 @@ type Props = {
 	maxHandleStyles: InlineStyles;
 	onMinChange: OnChange;
 	onMaxChange: OnChange;
-	mouseMoving: number;
+	testWatch: number;
 };
 
 export const Slider: React.FC<Props> = React.memo( ({
@@ -19,13 +19,13 @@ export const Slider: React.FC<Props> = React.memo( ({
 	maxHandleStyles,
 	onMinChange,
 	onMaxChange,
-	mouseMoving
+	testWatch
 	}) => {
 
 	console.log('render slider presentational')
 	return	(
 		<div>
-			<div>{mouseMoving}</div>
+			<div>{testWatch}</div>
 			<div className={styles.wrapper} style={railWrapperStyles}>
 				<div className={styles.placeholder}></div>
 				<div className={styles.railTrack} style={railTrackStyles}></div>

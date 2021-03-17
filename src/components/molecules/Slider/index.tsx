@@ -10,7 +10,7 @@ type Props = {
 	maxNumberChange: (arg: number) => void;
 };
 
-export type InlineStyles = {[key: string]: string | number}
+export type InlineStyles = {[key: string]: string | number} // *to-do
 export type OnChange = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 
 export const Slider: React.FC<Props> = (props) => {
@@ -34,10 +34,10 @@ export const Slider: React.FC<Props> = (props) => {
 	// }, [props]);
 
 	// states
-	const [mouseMoving, setMouseMoving] = useState<number>(0);
 	const [railTrackStyles, setRailTrackStyles] = useState<InlineStyles>({ width: rangePixel, left: minPixel, right: 'auto' });
 	const [minHandleStyles, setMinHandleStyles] = useState<InlineStyles>({ left: minPixel, right: 'auto' });
 	const [maxHandleStyles, setMaxHandleStyles] = useState<InlineStyles>({ left: maxPixel, right: 'auto' });
+	const [minValue, setMinValue] = useState<number>(currentValueSet.min);
 	
 	// https://blanktar.jp/blog/2020/06/react-why-state-not-updated
 	// const [clickedPoint, setClickedPoint] = useState<number>(0);
@@ -49,11 +49,25 @@ export const Slider: React.FC<Props> = (props) => {
 	// }, [clickedPoint]);
 
 	const onMinChange : OnChange = (e) => {
-		const clickedPoint = e.pageX;
+		let clickedPoint = e.pageX;
+		let currentHandlePosition = Number(minHandleStyles.left); // *to-do
 		const minMouseMoveFunc = (e: MouseEvent):void => {
-			const currentMove : number = e.pageX - clickedPoint;
-			setMouseMoving(currentMove);
-			// here pseudo re-rendering by using useState
+			const mouseEvent = e;
+			const currentMove : number = mouseEvent.pageX - clickedPoint;
+			console.log(currentMove)
+			// move slider handle according to the position of cursor
+			if (currentMove > thresholdPixel) {
+				const nextLeftPixel = currentHandlePosition + thresholdPixel;
+
+				// update handle style
+				setMinHandleStyles({ left: nextLeftPixel, right: 'auto' });
+				// update clickedpoint
+				clickedPoint = mouseEvent.pageX;
+				// update currentHandlePosition
+				currentHandlePosition = nextLeftPixel;
+				// update minValue
+				setMinValue(minValue + stepValue);
+			}
 		}
 
 		const mouseUpFunc = ():void => {
@@ -77,7 +91,7 @@ export const Slider: React.FC<Props> = (props) => {
 			maxHandleStyles={maxHandleStyles}
 			onMinChange = {onMinChange}
 			onMaxChange={onMaxChange}
-			mouseMoving={mouseMoving}
+			testWatch={minValue}
 		/>
 	);
 };
