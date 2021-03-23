@@ -50,6 +50,25 @@ export const Slider: React.FC<Props> = (props) => {
 	// 	console.log(clickedPoint);
 	// }, [clickedPoint]);
 
+	// to-do:
+	// change eventtargetdom to slider itself;
+	// when slider clicked, decide the clicked area according to thresholdPixel
+	// if (clicked area is left 50% side) {
+		// if (clicked area is NOT inside the currenthandleexist area) move the handle
+		// calculate the value
+		// move the handle
+		// if (handle's value going to surpass the bigger value) never update
+
+	//} else { // right side
+		// if (clicked area is NOT inside the currenthandleexist area) move the handle
+		// calculate the value
+		// move the handle
+		// if (handle's value going to surpass the smaller value) never update
+	//}
+
+	const onSliderClick : OnChange = (e) => {
+		console.log('noop');
+	}
 	const onMinChange : OnChange = (e) => { // *to-do check re-rendering caused by any clicks after running this 
 		let clickedPoint = e.pageX;
 		let currentHandlePosition = minHandlePosition;
@@ -107,6 +126,7 @@ export const Slider: React.FC<Props> = (props) => {
 			railTrackStyles={railTrackStyles}
 			minHandlePosition={minHandlePosition}
 			maxHandlePosition={maxHandlePosition}
+			onSliderClick = {onSliderClick}
 			onMinChange = {onMinChange}
 			onMaxChange={onMaxChange}
 			testWatch={currentValueSet.min}
