@@ -77,6 +77,7 @@ export const Slider: React.FC<Props> = (props) => {
 		const mouseUpFunc = ():void => {
 			// here store update
 			document.removeEventListener('mousemove', minMouseMoveFunc);
+			document.removeEventListener('mouseup', mouseUpFunc);
 			minNumberChange(currentMinValue)
 		}
 
