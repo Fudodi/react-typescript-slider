@@ -60,17 +60,30 @@ export const Slider: React.FC<Props> = (props) => {
 			const currentMove : number = mouseEvent.pageX - clickedPoint;
 			console.log(currentMove)
 			// move slider handle according to the position of cursor
+			// handle moved to the right side (plus)
 			if (currentMove > thresholdPixel) {
-				const nextLeftPixel = currentHandlePosition + thresholdPixel;
+				const nextHandlePosition = currentHandlePosition + thresholdPixel;
 
 				// update handle style
-				setMinHandlePosition(nextLeftPixel);
+				setMinHandlePosition(nextHandlePosition);
 				// update clickedpoint
 				clickedPoint = mouseEvent.pageX;
 				// update currentHandlePosition
-				currentHandlePosition = nextLeftPixel;
+				currentHandlePosition = nextHandlePosition;
 				// update minValue
 				currentMinValue += stepValue;
+			} else if (currentMove < thresholdPixel * -1 ) {
+				// handle moved to the left side (minus)
+				const nextHandlePosition = currentHandlePosition - thresholdPixel;
+
+				// update handle style
+				setMinHandlePosition(nextHandlePosition);
+				// update clickedpoint
+				clickedPoint = mouseEvent.pageX;
+				// update currentHandlePosition
+				currentHandlePosition = nextHandlePosition;
+				// update minValue
+				currentMinValue -= stepValue;
 			}
 		}
 
